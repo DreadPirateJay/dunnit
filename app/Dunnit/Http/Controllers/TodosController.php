@@ -43,7 +43,9 @@ class TodosController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $todo = $this->todos->create($request->all());
+
+        return response()->json($todo->toArray(), 201);
     }
 
     /**
@@ -54,7 +56,7 @@ class TodosController extends Controller
      */
     public function show($id)
     {
-        //
+        return response()->json($this->todos->findOrFail($id)->toArray(), 200);
     }
 
     /**
@@ -66,7 +68,10 @@ class TodosController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $todo = $this->todos->findOrFail($id);
+        $todo->update($request->all());
+
+        return response()->json($todo->toArray(), 200);
     }
 
     /**
@@ -77,6 +82,9 @@ class TodosController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $todo = $this->todos->findOrFail($id);
+        $todo->delete();
+
+        return response()->status(204);
     }
 }
